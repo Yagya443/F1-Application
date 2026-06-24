@@ -1,71 +1,87 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 
-function RaceCard({ race }) {
-    return (
-        <div
-            className={`race-card flex-shrink-0 glass-card glass-card-hover rounded-xl p-5 border cursor-pointer transition-all duration-300 ${
-                race.isNext
-                    ? "border-[#E10600]/50 bg-[#E10600]/5 shadow-[0_0_25px_rgba(225,6,0,0.15)]"
-                    : "border-[#1A1A1A]"
-            }`}
-            style={{ width: "185px" }}
-        >
-            {/* Round badge */}
-            <div className="flex items-center justify-between mb-4">
-                <span
-                    className={`text-xs font-mono font-bold px-2 py-1 rounded ${
-                        race.isNext
-                            ? "bg-[#E10600] text-white"
-                            : "bg-[#1A1A1A] text-gray-400"
-                    }`}
-                >
-                    R{race.round}
-                </span>
-                {race.isNext && (
-                    <div className="flex items-center gap-1.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#E10600] animate-pulse" />
-                        <span className="text-[#E10600] text-xs font-semibold tracking-wider">
-                            NEXT
-                        </span>
-                    </div>
-                )}
-            </div>
+import { UpcomingRace } from "./hooks/UpcomingRace.function";
+import { useState } from "react";
+import { useEffect } from "react";
 
-            {/* Flag & Date */}
-            <div className="mb-3">
-                <span className="text-3xl block mb-2">{race.flag}</span>
-                <div
-                    className={`text-xs font-mono font-semibold ${race.isNext ? "text-[#E10600]" : "text-gray-500"}`}
-                >
-                    {race.date}
-                </div>
-            </div>
+// function RaceCard({ race }) {
+//     return (
+//         <div
+//             className={`race-card flex-shrink-0 glass-card glass-card-hover rounded-xl p-5 border cursor-pointer transition-all duration-300 ${
+//                 race.isNext
+//                     ? "border-[#E10600]/50 bg-[#E10600]/5 shadow-[0_0_25px_rgba(225,6,0,0.15)]"
+//                     : "border-[#1A1A1A]"
+//             }`}
+//             style={{ width: "185px" }}
+//         >
+//             {/* Round badge */}
+//             <div className="flex items-center justify-between mb-4">
+//                 <span
+//                     className={`text-xs font-mono font-bold px-2 py-1 rounded ${
+//                         race.isNext
+//                             ? "bg-[#E10600] text-white"
+//                             : "bg-[#1A1A1A] text-gray-400"
+//                     }`}
+//                 >
+//                     R{race.round}
+//                 </span>
+//                 {race.isNext && (
+//                     <div className="flex items-center gap-1.5">
+//                         <div className="w-1.5 h-1.5 rounded-full bg-[#E10600] animate-pulse" />
+//                         <span className="text-[#E10600] text-xs font-semibold tracking-wider">
+//                             NEXT
+//                         </span>
+//                     </div>
+//                 )}
+//             </div>
 
-            {/* Race Name */}
-            <div className="mb-3">
-                <div className="text-white font-bold text-sm leading-tight mb-1">
-                    {race.shortName}
-                </div>
-                <div className="flex items-center gap-1 text-gray-500 text-xs">
-                    <MapPin size={10} className="flex-shrink-0" />
-                    <span className="truncate">{race.circuit}</span>
-                </div>
-            </div>
+//             {/* Flag & Date */}
+//             <div className="mb-3">
+//                 <span className="text-3xl block mb-2">{race.flag}</span>
+//                 <div
+//                     className={`text-xs font-mono font-semibold ${race.isNext ? "text-[#E10600]" : "text-gray-500"}`}
+//                 >
+//                     {race.date}
+//                 </div>
+//             </div>
 
-            {/* Bottom accent */}
-            {race.isNext && (
-                <div className="mt-3 pt-3 border-t border-[#E10600]/20">
-                    <div className="text-[#E10600] text-xs font-semibold uppercase tracking-wider">
-                        View Details →
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-}
+//             {/* Race Name */}
+//             <div className="mb-3">
+//                 <div className="text-white font-bold text-sm leading-tight mb-1">
+//                     {race.shortName}
+//                 </div>
+//                 <div className="flex items-center gap-1 text-gray-500 text-xs">
+//                     <MapPin size={10} className="flex-shrink-0" />
+//                     <span className="truncate">{race.circuit}</span>
+//                 </div>
+//             </div>
+
+//             {/* Bottom accent */}
+//             {race.isNext && (
+//                 <div className="mt-3 pt-3 border-t border-[#E10600]/20">
+//                     <div className="text-[#E10600] text-xs font-semibold uppercase tracking-wider">
+//                         View Details →
+//                     </div>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// }
 
 export default function UpcomingRaces() {
+    const [upcomingRaces, setUpcomingRaces] = useState(null);
+
+    useEffect(() => {
+        const fetchUpcoming = async () => {
+            const upcoming = await UpcomingRace();
+            setUpcomingRaces(upcoming);
+            // console.log("upcoming",upcoming);
+        };
+
+        fetchUpcoming();
+    }, []);
+
     const scrollRef = useRef(null);
 
     const scroll = (dir) => {
@@ -116,8 +132,39 @@ export default function UpcomingRaces() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div
                     ref={scrollRef}
-                    className="flex gap-4 overflow-x-auto scrollbar-hide pb-4"
-                ></div>
+                    className="flex gap-6 overflow-x-auto scrollbar-hide pb-4"
+                >
+                    {upcomingRaces?.map((races) => (
+                        <div
+                            // key={driver.position}
+                            className="glass-card rounded-xl min-w-56 px-4 pt-2 border border-[#1A1A1A] cursor-pointer hover:border-red-500 transition-all duration-200"
+                        >
+                            <div className="flex items-start justify-between mb-2">
+                                <img
+                                    className="text-[#E10600] text-xs h-6 font-mono font-bold"
+                                    src={races?.country_flag}
+                                />
+                                <span className="text-lg">
+                                    {/* {driver.Driver.code} */}
+                                    {races?.country_code}
+                                </span>
+                            </div>
+                            <div className="text-white text-sm font-bold truncate">
+                                {/* {driver.Driver.givenName} */}
+                                {races?.location}, {races?.country_name}
+                            </div>
+                            <div className="text-gray-500 text-xs mt-0.5 truncate">
+                                {/* {driver.Constructors[0].name} */}
+                                {races?.date_start.split("T")[0]} to{" "}
+                                {races?.date_end.split("T")[0]}
+                            </div>
+                            <div className="mt-4 text-[#E10600] text-sm font-mono font-semibold">
+                                {/* {driver.points} pts */}
+                                {races?.meeting_name}
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             {/* View Full Calendar */}

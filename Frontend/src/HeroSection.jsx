@@ -1,8 +1,10 @@
 import { MapPin, Calendar, ChevronRight, Radio } from "lucide-react";
 import { useCountdown } from "./hooks/useCountdown";
 import { Link, NavLink } from "react-router-dom";
-import { handleNextRaceDate } from "./hooks/NextRace.function";
 import { useEffect, useState } from "react";
+import { handleNextRaceDate } from "./hooks/NextRace.function";
+import { handleStanding } from "./hooks/Standings.function";
+
 // import { getNextRace } from "../services/f1Api";
 
 function CountdownBox({ value, label }) {
@@ -17,6 +19,13 @@ function CountdownBox({ value, label }) {
 
 function HeroSection() {
     const [nextRace, setNextRace] = useState(null);
+    const [standing, setStanding] = useState(null);
+
+
+    // const handleCards=()=>{
+        
+    // }
+
     useEffect(() => {
         const fetchRace = async () => {
             const race = await handleNextRaceDate();
@@ -24,7 +33,14 @@ function HeroSection() {
             console.log(race);
         };
 
+        const fetchStanding = async () => {
+            const stand = await handleStanding();
+            setStanding(stand);
+            console.log(stand);
+        };
+
         fetchRace();
+        fetchStanding();
     }, []);
 
     const today = new Date();
@@ -48,7 +64,9 @@ function HeroSection() {
                             className="section-label"
                             style={{ fontSize: "0.65rem" }}
                         >
-                            2026 Season — Round 12 of 24
+                            2026 Season — Round{" "}
+                            {standing?.StandingsTable?.round} of{" "}
+                            {standing?.total}
                         </span>
                     </div>
                 </div>
@@ -194,65 +212,33 @@ function HeroSection() {
                     </div>
                 </div>
 
-                <div className="mt-6 grid grid-cols-3 sm:grid-cols-5 gap-3">
-                    {[
-                        {
-                            pos: 1,
-                            flag: "🇳🇱",
-                            name: "Verstappen",
-                            pts: 219,
-                            team: "Red Bull",
-                        },
-                        {
-                            pos: 2,
-                            flag: "🇬🇧",
-                            name: "Norris",
-                            pts: 198,
-                            team: "McLaren",
-                        },
-                        {
-                            pos: 3,
-                            flag: "🇲🇨",
-                            name: "Leclerc",
-                            pts: 176,
-                            team: "Ferrari",
-                        },
-                        {
-                            pos: 4,
-                            flag: "🇪🇸",
-                            name: "Sainz",
-                            pts: 161,
-                            team: "Ferrari",
-                        },
-                        {
-                            pos: 5,
-                            flag: "🇬🇧",
-                            name: "Russell",
-                            pts: 144,
-                            team: "Mercedes",
-                        },
-                    ].map((driver) => (
-                        <div
-                            key={driver.pos}
-                            className="glass-card glass-card-hover rounded-xl p-4 border border-[#1A1A1A] cursor-pointer"
-                        >
-                            <div className="flex items-start justify-between mb-2">
-                                <span className="text-[#E10600] text-xs font-mono font-bold">
-                                    P{driver.pos}
-                                </span>
-                                <span className="text-lg">{driver.flag}</span>
+                <div className="mt-12 flex overflow-x-hidden gap-5">
+                    {standing?.StandingsTable?.StandingsLists[0]?.DriverStandings?.map(
+                        (driver) => (
+                            <div
+                                key={driver.position}
+                                className="glass-card glass-card-hover rounded-xl min-w-56 p-4 border border-[#1A1A1A] cursor-pointer"
+                            >
+                                <div className="flex items-start justify-between mb-2">
+                                    <span className="text-[#E10600] text-xs font-mono font-bold">
+                                        P{driver.position}
+                                    </span>
+                                    <span className="text-lg">
+                                        {driver.Driver.code}
+                                    </span>
+                                </div>
+                                <div className="text-white text-sm font-bold truncate">
+                                    {driver.Driver.givenName}
+                                </div>
+                                <div className="text-gray-500 text-xs mt-0.5 truncate">
+                                    {driver.Constructors[0].name}
+                                </div>
+                                <div className="mt-2 text-[#E10600] text-sm font-mono font-semibold">
+                                    {driver.points} pts
+                                </div>
                             </div>
-                            <div className="text-white text-sm font-bold truncate">
-                                {driver.name}
-                            </div>
-                            <div className="text-gray-500 text-xs mt-0.5 truncate">
-                                {driver.team}
-                            </div>
-                            <div className="mt-2 text-[#E10600] text-sm font-mono font-semibold">
-                                {driver.pts} pts
-                            </div>
-                        </div>
-                    ))}
+                        ),
+                    )}
                 </div>
             </div>
         </section>

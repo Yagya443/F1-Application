@@ -38,17 +38,17 @@ function PreviousRaceCard({ race, index }) {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0F0F0F] opacity-50 sm:opacity-70" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-transparent to-transparent sm:hidden" />
-          {/* Round Badge */}
+          
           <div className="absolute top-3 left-3 bg-[#050505]/80 backdrop-blur-sm border border-[#1A1A1A] rounded-lg px-2 py-1">
             <span className="text-[#E10600] text-xs font-mono font-bold">R{race.round}</span>
           </div>
         </div>
 
-        {/* Content */}
+      
         <div className="flex-1 p-5 sm:p-6">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
-              {/* Date & Country */}
+             
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-xl">{race.flag}</span>
                 <span className="text-gray-500 text-xs font-mono">{race.date}</span>
