@@ -1,15 +1,15 @@
 import React from "react";
 
-export const UpcomingRace = async () => {
-    const response = await fetch("https://api.openf1.org/v1/meetings");
+export const PreviousRacesFunc = async () => {
+    const response = await fetch("https://api.jolpi.ca/ergast/f1/current/last/results.json");
 
     const data = await response.json();
 
-    // console.log(data);
+    console.log(data);
 
-    const previousfilteredData = data.filter(
-        (ele) => new Date(ele.date_start) < new Date(),
-    );
+    // const previousfilteredData = data.filter(
+    //     (ele) => new Date(ele.date_start) < new Date(),
+    // );
 
-    return upcomingfilteredData;
+    return data.MRData.RaceTable.Races;
 };

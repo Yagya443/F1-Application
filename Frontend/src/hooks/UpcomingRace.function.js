@@ -7,7 +7,7 @@ export const UpcomingRace = async () => {
 
     // console.log(data);
 
-    const upcomingfilteredData = data.filter(
+    const upcomingfilteredData = data?.filter(
         (ele) => new Date(ele.date_start) > new Date(),
     );
 
