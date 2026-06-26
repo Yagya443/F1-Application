@@ -1,4 +1,5 @@
 import { ChevronRight, CalendarDays, Flag } from "lucide-react";
+import Navbar from "../Navbar";
 
 const upcomingRaces = [
     {
@@ -125,14 +126,11 @@ const RaceCard = ({ race, previous }) => {
 
 export default function Calendar() {
     return (
+        <>
+        <Navbar />
         <div className="min-h-screen bg-black text-white px-6 py-12">
             <div className="max-w-7xl mx-auto">
-                {/* Heading */}
-                <div className="text-center mb-14">
-                    <h1 className="text-5xl font-bold">RACE CALENDAR</h1>
-
-                    <div className="w-20 h-1 bg-red-500 mx-auto mt-5 rounded-full"></div>
-                </div>
+                
 
                 {/* Upcoming */}
                 <div className="mb-16">
@@ -167,5 +165,6 @@ export default function Calendar() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
