@@ -4,7 +4,6 @@ import HeroSection from "../HeroSection";
 import UpcomingRaces from "../UpcomingRaces";
 import PreviousRaces from "../PreviousRaces";
 import Footer from "../Footer";
-
 import React from "react";
 
 const Home = () => {
