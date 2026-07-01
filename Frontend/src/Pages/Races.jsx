@@ -15,31 +15,32 @@ import { handleSchedule } from "../hooks/Schedule.function";
 import handleRaceData from "../hooks/RaceData.function";
 import circuits from "../data/circuit.json";
 import handleWeather from "../hooks/Weather.function";
+import PreviousRaceWinners from "../hooks/PreviousRaceWinners.function";
 
 export default function Races() {
-    const previousWinners = [
-        {
-            year: "2025",
-            driver: "Oscar Piastri",
-            team: "McLaren",
-            position: "P1",
-            color: "bg-orange-500",
-        },
-        {
-            year: "2024",
-            driver: "Max Verstappen",
-            team: "Red Bull Racing",
-            position: "P1",
-            color: "bg-blue-600",
-        },
-        {
-            year: "2023",
-            driver: "Max Verstappen",
-            team: "Red Bull Racing",
-            position: "P1",
-            color: "bg-blue-600",
-        },
-    ];
+    // const previousWinners = [
+    //     {
+    //         year: "2025",
+    //         driver: "Oscar Piastri",
+    //         team: "McLaren",
+    //         position: "P1",
+    //         color: "bg-orange-500",
+    //     },
+    //     {
+    //         year: "2024",
+    //         driver: "Max Verstappen",
+    //         team: "Red Bull Racing",
+    //         position: "P1",
+    //         color: "bg-blue-600",
+    //     },
+    //     {
+    //         year: "2023",
+    //         driver: "Max Verstappen",
+    //         team: "Red Bull Racing",
+    //         position: "P1",
+    //         color: "bg-blue-600",
+    //     },
+    // ];
 
     const [nextRace, setNextRace] = useState(null);
     const [standing, setStanding] = useState(null);
@@ -47,6 +48,7 @@ export default function Races() {
     const [weather, setWeather] = useState(null);
     const [raceData, setRaceData] = useState(null);
     const [circuitData, setCircuitData] = useState(null);
+    const [previousWinner, setPreviousWinner] = useState(null);
 
     useEffect(() => {
         const fetchRace = async () => {
@@ -57,7 +59,6 @@ export default function Races() {
             const circuit = await circuits.find(
                 (item) => item?.grandPrix === nextRace?.meeting_name,
             );
-
             // console.log(circuit);
             setCircuitData(circuit);
         };
@@ -71,17 +72,25 @@ export default function Races() {
         const fetchWeather = async () => {
             const weath = await handleWeather(circuitData?.country);
             setWeather(weath);
-            console.log("weather", weather);
+            // console.log("weather", weather);
         };
         const fetchRaceData = async () => {
             const raceData = await handleRaceData();
             setRaceData(raceData);
+        };
+        const fetchPreviousWinner = async () => {
+            const previous = await PreviousRaceWinners(
+                circuitData?.circuitId,
+            );
+            console.log("fetchPreviousWinner", previous);
+            setPreviousWinner(previous);
         };
 
         fetchRace();
         fetchStanding();
         fetchRaceData();
         fetchWeather();
+        fetchPreviousWinner();
     }, []);
 
     const start = new Date(nextRace?.date_start);
@@ -109,15 +118,14 @@ export default function Races() {
 
     // console.log(circuits);
 
-    console.log(weather);
-    
+    // console.log(weather);
 
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-[#0D1117] text-white">
+            <div className=" min-h-screen bg-[#0D1117] text-white">
                 {/* Header */}
-                <section className="relative overflow-hidden border-b border-white/10">
+                <section className="relative pt-8 overflow-hidden border-b border-white/10">
                     <div className="max-w-7xl mx-auto px-6 py-10 relative">
                         {/* Back Button */}
                         <div className="grid lg:grid-cols-2 gap-10 items-center">
@@ -198,7 +206,7 @@ export default function Races() {
 
                 {/* MAIN */}
 
-                <section className="max-w-7xl mx-auto px-6 py-14">
+                <section className="max-w-7xl mx-auto px-6  py-14">
                     <div className="grid lg:grid-cols-3 gap-8">
                         {/* LEFT */}
 
@@ -275,25 +283,25 @@ export default function Races() {
                                 </div>
 
                                 <div className="space-y-5">
-                                    {previousWinners.map((winner) => (
+                                    {previousWinner?.map((winner,idx) => (
                                         <div
-                                            key={winner.year}
+                                            key={idx}
                                             className="bg-[#0D1117] rounded-2xl p-5 flex items-center justify-between border border-white/5 hover:border-red-500 transition"
                                         >
                                             <div className="flex items-center gap-5">
                                                 <div
-                                                    className={`w-14 h-14 rounded-full ${winner.color} flex items-center justify-center font-bold text-lg`}
+                                                    className={`w-14 h-14 rounded-full ${winner.color} flex items-center justify-center font-bold text-2xl`}
                                                 >
-                                                    {winner.position}
+                                                    P1
                                                 </div>
 
                                                 <div>
-                                                    <h3 className="text-xl font-semibold">
-                                                        {winner.driver}
+                                                    <h3 className="text-2xl font-semibold">
+                                                        {winner.firstName} {winner.lastName} 
                                                     </h3>
 
                                                     <p className="text-gray-400">
-                                                        {winner.team}
+                                                        {winner.car}
                                                     </p>
                                                 </div>
                                             </div>
@@ -428,7 +436,9 @@ export default function Races() {
                                 </h2>
 
                                 <div className="text-center">
-                                    <div className="text-6xl mb-4">{weather?.current?.condition?.icon}</div>
+                                    <div className="text-6xl mb-4">
+                                        {weather?.current?.condition?.icon}
+                                    </div>
 
                                     <h3 className="text-5xl font-black">
                                         {weather?.current?.temp_c}°C
