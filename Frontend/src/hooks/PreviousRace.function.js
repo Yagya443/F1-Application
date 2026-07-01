@@ -5,7 +5,7 @@ export const PreviousRacesFunc = async () => {
 
     const data = await response.json();
 
-    console.log(data);
+    // console.log(data);
 
     // const previousfilteredData = data.filter(
     //     (ele) => new Date(ele.date_start) < new Date(),

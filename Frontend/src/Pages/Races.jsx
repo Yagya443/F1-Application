@@ -14,6 +14,7 @@ import { handleStanding } from "../hooks/Standings.function";
 import { handleSchedule } from "../hooks/Schedule.function";
 import handleRaceData from "../hooks/RaceData.function";
 import circuits from "../data/circuit.json";
+import handleWeather from "../hooks/Weather.function";
 
 export default function Races() {
     const previousWinners = [
@@ -45,22 +46,30 @@ export default function Races() {
     const [schedule, setSchedule] = useState(null);
     const [weather, setWeather] = useState(null);
     const [raceData, setRaceData] = useState(null);
+    const [circuitData, setCircuitData] = useState(null);
 
     useEffect(() => {
         const fetchRace = async () => {
             const race = await handleNextRaceDate();
             setNextRace(race);
-            console.log("race", race);
+            // console.log("race", race);
+
+            const circuit = await circuits.find(
+                (item) => item?.grandPrix === nextRace?.meeting_name,
+            );
+
+            // console.log(circuit);
+            setCircuitData(circuit);
         };
 
         const fetchStanding = async () => {
             const stand = await handleStanding();
             setStanding(stand);
-            console.log("stand", stand);
+            // console.log("stand", stand);
         };
 
         const fetchWeather = async () => {
-            const weath = await handleStanding(nextRace?.country_name);
+            const weath = await handleWeather(circuitData?.country);
             setWeather(weath);
             console.log("weather", weather);
         };
@@ -69,23 +78,11 @@ export default function Races() {
             setRaceData(raceData);
         };
 
-        fetchWeather();
         fetchRace();
         fetchStanding();
         fetchRaceData();
+        fetchWeather();
     }, []);
-
-    // useEffect(() => {
-    //     const fetchScheduling = async () => {
-    //         console.log(standing?.StandingsTable?.round);
-
-    //         const stand = await handleSchedule(standing?.StandingsTable?.round);
-    //         setSchedule(stand);
-    //         console.log("schedule", schedule);
-    //     };
-
-    //     fetchScheduling();
-    // }, [standing]);
 
     const start = new Date(nextRace?.date_start);
     const end = new Date(nextRace?.date_end);
@@ -112,14 +109,7 @@ export default function Races() {
 
     // console.log(circuits);
 
-    // console.log();
-    const circuit = circuits.find(
-        (item) =>
-            item?.grandPrix.toLowerCase ===
-            nextRace?.meeting_name.toLowerCase(),
-    );
-
-    console.log(circuit);
+    console.log(weather);
     
 
     return (
@@ -229,7 +219,11 @@ export default function Races() {
                                         </p>
 
                                         <h3 className="text-2xl font-bold mt-1">
-                                            307.236 km
+                                            {(
+                                                circuitData?.length.split(
+                                                    " ",
+                                                )[0] * circuitData?.laps
+                                            ).toFixed(2)}
                                         </h3>
                                     </div>
 
@@ -241,7 +235,7 @@ export default function Races() {
                                         </p>
 
                                         <h3 className="text-2xl font-bold mt-1">
-                                            66
+                                            {circuitData?.laps}
                                         </h3>
                                     </div>
 
@@ -253,7 +247,7 @@ export default function Races() {
                                         </p>
 
                                         <h3 className="text-2xl font-bold mt-1">
-                                            4.657 km
+                                            {circuitData?.length}
                                         </h3>
                                     </div>
 
@@ -265,7 +259,7 @@ export default function Races() {
                                         </p>
 
                                         <h3 className="text-2xl font-bold mt-1">
-                                            1:16.330
+                                            {circuitData?.firstGrandPrix}
                                         </h3>
                                     </div>
                                 </div>
@@ -278,11 +272,6 @@ export default function Races() {
                                     <h2 className="text-3xl font-bold">
                                         Previous Winners
                                     </h2>
-
-                                    <button className="text-red-500 hover:text-red-400 flex items-center gap-2">
-                                        View Full History
-                                        <ChevronRight size={18} />
-                                    </button>
                                 </div>
 
                                 <div className="space-y-5">
@@ -439,14 +428,14 @@ export default function Races() {
                                 </h2>
 
                                 <div className="text-center">
-                                    <div className="text-6xl mb-4">☀️</div>
+                                    <div className="text-6xl mb-4">{weather?.current?.condition?.icon}</div>
 
                                     <h3 className="text-5xl font-black">
-                                        29°C
+                                        {weather?.current?.temp_c}°C
                                     </h3>
 
                                     <p className="mt-2 text-red-100">
-                                        Sunny Conditions
+                                        {weather?.current?.condition?.text}
                                     </p>
                                 </div>
 
@@ -457,7 +446,7 @@ export default function Races() {
                                         </p>
 
                                         <h4 className="text-2xl font-bold">
-                                            58%
+                                            {weather?.humidity}%
                                         </h4>
                                     </div>
 
@@ -467,7 +456,7 @@ export default function Races() {
                                         </p>
 
                                         <h4 className="text-2xl font-bold">
-                                            12 km/h
+                                            {weather?.wind_kph}km/h
                                         </h4>
                                     </div>
                                 </div>
@@ -486,7 +475,9 @@ export default function Races() {
                                             Turns
                                         </span>
 
-                                        <span className="font-bold">16</span>
+                                        <span className="font-bold">
+                                            {circuitData?.turns}
+                                        </span>
                                     </div>
 
                                     <div className="flex justify-between">
@@ -494,7 +485,9 @@ export default function Races() {
                                             DRS Zones
                                         </span>
 
-                                        <span className="font-bold">2</span>
+                                        <span className="font-bold">
+                                            {circuitData?.drsZones}
+                                        </span>
                                     </div>
 
                                     <div className="flex justify-between">
@@ -502,7 +495,9 @@ export default function Races() {
                                             First GP
                                         </span>
 
-                                        <span className="font-bold">1991</span>
+                                        <span className="font-bold">
+                                            {circuitData?.firstGrandPrix}
+                                        </span>
                                     </div>
 
                                     <div className="flex justify-between">
@@ -511,7 +506,7 @@ export default function Races() {
                                         </span>
 
                                         <span className="font-bold">
-                                            1:18.149
+                                            {circuitData?.lapRecord.time}
                                         </span>
                                     </div>
 
@@ -521,7 +516,7 @@ export default function Races() {
                                         </span>
 
                                         <span className="font-bold">
-                                            140,700
+                                            {circuitData?.capacity}
                                         </span>
                                     </div>
                                 </div>

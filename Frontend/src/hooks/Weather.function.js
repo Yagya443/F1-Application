@@ -1,8 +1,12 @@
 import React from "react";
 
 const handleWeather = async (city) => {
+
+    console.log('cityNAme', city);
+    
+
     const response = await fetch(
-        `https://api.weatherapi.com/v1/current.json?key=de4816e64bc6731be4efdc701ef62893&q=${city}`,
+        `https://api.weatherapi.com/v1/current.json?key=24d5716aa0ce14f765c7eca931c89bb5&q=London`,
     );
 
     const data = await response.json();

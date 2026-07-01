@@ -127,44 +127,42 @@ const RaceCard = ({ race, previous }) => {
 export default function Calendar() {
     return (
         <>
-        <Navbar />
-        <div className="min-h-screen bg-black text-white px-6 py-12">
-            <div className="max-w-7xl mx-auto">
-                
+            <Navbar />
 
-                {/* Upcoming */}
-                <div className="mb-16">
-                    <div className="flex items-center gap-3 mb-6">
-                        <CalendarDays className="text-red-500" />
-                        <h2 className="text-2xl font-bold uppercase">
-                            Upcoming Races
-                        </h2>
+            <div className="min-h-screen bg-black text-white px-6 py-12">
+                <div className="max-w-7xl mx-auto">
+                    {/* Upcoming */}
+                    <div className="mb-16">
+                    
+
+                        <div className="space-y-4">
+                            {upcomingRaces.map((race, index) => (
+                                <RaceCard key={index} race={race} />
+                            ))}
+                        </div>
                     </div>
 
-                    <div className="space-y-4">
-                        {upcomingRaces.map((race, index) => (
-                            <RaceCard key={index} race={race} />
-                        ))}
-                    </div>
-                </div>
+                    {/* Previous */}
+                    <div>
+                        <div className="flex items-center gap-3 mb-6">
+                            <Flag className="text-red-500" />
+                            <h2 className="text-2xl font-bold uppercase">
+                                Previous Races
+                            </h2>
+                        </div>
 
-                {/* Previous */}
-                <div>
-                    <div className="flex items-center gap-3 mb-6">
-                        <Flag className="text-red-500" />
-                        <h2 className="text-2xl font-bold uppercase">
-                            Previous Races
-                        </h2>
-                    </div>
-
-                    <div className="space-y-4">
-                        {previousRaces.map((race, index) => (
-                            <RaceCard key={index} race={race} previous={true} />
-                        ))}
+                        <div className="space-y-4">
+                            {previousRaces.map((race, index) => (
+                                <RaceCard
+                                    key={index}
+                                    race={race}
+                                    previous={true}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }
