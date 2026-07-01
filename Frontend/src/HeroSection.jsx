@@ -1,7 +1,7 @@
 import { MapPin, Calendar, ChevronRight, Radio } from "lucide-react";
 import { useCountdown } from "./hooks/useCountdown";
 import { Link, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { handleNextRaceDate } from "./hooks/NextRace.function";
 import { handleStanding } from "./hooks/Standings.function";
 
@@ -21,10 +21,44 @@ function HeroSection() {
     const [nextRace, setNextRace] = useState(null);
     const [standing, setStanding] = useState(null);
 
+    const sliderRef = useRef(null);
 
-    // const handleCards=()=>{
+    const isDragging = useRef(false);
+    const startX = useRef(0);
+    const scrollLeft = useRef(0);
+
+    const handleMouseDown = (e) => {
+        isDragging.current = true;
+        sliderRef.current.classList.add("cursor-grabbing");
+        sliderRef.current.classList.remove("cursor-grab");
+
+        startX.current = e.pageX;
+        scrollLeft.current = sliderRef.current.scrollLeft;
+    };
+
+    const handleMouseUp = () => {
+        isDragging.current = false;
+        sliderRef.current.classList.remove("cursor-grabbing");
+        sliderRef.current.classList.add("cursor-grab");
+
+        const CARD_WIDTH = 244;
+        const scroll=sliderRef.current.scrollLeft
+
+        const snap = Math.round(scroll / CARD_WIDTH) * CARD_WIDTH;
+
+        sliderRef.current.scrollTo({
+            left: snap,
+            behavior: "smooth",
+        });
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging.current) return;
+        e.preventDefault();
+        const distance = e.pageX - startX.current;
         
-    // }
+        sliderRef.current.scrollLeft = scrollLeft.current - distance;
+    };
 
     useEffect(() => {
         const fetchRace = async () => {
@@ -36,7 +70,7 @@ function HeroSection() {
         const fetchStanding = async () => {
             const stand = await handleStanding();
             setStanding(stand);
-            // console.log(stand);
+            console.log(stand);
         };
 
         fetchRace();
@@ -212,12 +246,18 @@ function HeroSection() {
                     </div>
                 </div>
 
-                <div className="mt-12 flex overflow-x-hidden gap-5">
+                <div
+                    ref={sliderRef}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    className=" flex flex-nowrap overflow-x-hidden scrollbar-hide gap-5 cursor-grab select-none "
+                >
                     {standing?.StandingsTable?.StandingsLists[0]?.DriverStandings?.map(
                         (driver) => (
                             <div
                                 key={driver.position}
-                                className="glass-card glass-card-hover rounded-xl min-w-56 p-4 border border-[#1A1A1A] cursor-pointer"
+                                className="glass-card glass-card-hover rounded-xl min-w-56 p-4 border border-[#1A1A1A]  "
                             >
                                 <div className="flex items-start justify-between mb-2">
                                     <span className="text-[#E10600] text-xs font-mono font-bold">

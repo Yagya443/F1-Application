@@ -82,7 +82,7 @@ export default function Races() {
             const previous = await PreviousRaceWinners(
                 circuitData?.circuitId,
             );
-            console.log("fetchPreviousWinner", previous);
+            // console.log("fetchPreviousWinner", previous);
             setPreviousWinner(previous);
         };
 
@@ -118,7 +118,7 @@ export default function Races() {
 
     // console.log(circuits);
 
-    // console.log(weather);
+    console.log(circuitData);
 
     return (
         <>
@@ -227,12 +227,9 @@ export default function Races() {
                                         </p>
 
                                         <h3 className="text-2xl font-bold mt-1">
-                                            {(
-                                                circuitData?.length.split(
-                                                    " ",
-                                                )[0] * circuitData?.laps
-                                            ).toFixed(2)}
-                                        </h3>
+                                            {
+                                                circuitData?.raceDistance
+                                            }</h3>
                                     </div>
 
                                     <div className="bg-[#0D1117] rounded-2xl p-6 border border-white/5">
@@ -306,7 +303,7 @@ export default function Races() {
                                                 </div>
                                             </div>
 
-                                            <div className="text-3xl font-black text-gray-500">
+                                            <div className="text-3xl font-black text-gray-300">
                                                 {winner.year}
                                             </div>
                                         </div>
@@ -316,119 +313,7 @@ export default function Races() {
                         </div>
 
                         <div className="space-y-8">
-                            {/* Weekend Schedule */}
-
-                            <div className="bg-[#161B22] rounded-3xl border border-white/10 p-7">
-                                <h2 className="text-2xl font-bold mb-6">
-                                    Weekend Schedule
-                                </h2>
-
-                                {/* {[
-                                    race?.FirstPractice && {
-                                        title: "Practice 1",
-                                        day: new Date(
-                                            race.FirstPractice.date,
-                                        ).toLocaleDateString("en-US", {
-                                            weekday: "long",
-                                        }),
-                                        time: race.FirstPractice.time.slice(
-                                            0,
-                                            5,
-                                        ),
-                                    },
-
-                                    race?.SecondPractice && {
-                                        title: "Practice 2",
-                                        day: new Date(
-                                            race.SecondPractice.date,
-                                        ).toLocaleDateString("en-US", {
-                                            weekday: "long",
-                                        }),
-                                        time: race.SecondPractice.time.slice(
-                                            0,
-                                            5,
-                                        ),
-                                    },
-
-                                    race?.ThirdPractice && {
-                                        title: "Practice 3",
-                                        day: new Date(
-                                            race.ThirdPractice.date,
-                                        ).toLocaleDateString("en-US", {
-                                            weekday: "long",
-                                        }),
-                                        time: race.ThirdPractice.time.slice(
-                                            0,
-                                            5,
-                                        ),
-                                    },
-
-                                    race?.SprintQualifying && {
-                                        title: "Sprint Qualifying",
-                                        day: new Date(
-                                            race.SprintQualifying.date,
-                                        ).toLocaleDateString("en-US", {
-                                            weekday: "long",
-                                        }),
-                                        time: race.SprintQualifying.time.slice(
-                                            0,
-                                            5,
-                                        ),
-                                    },
-
-                                    race?.Sprint && {
-                                        title: "Sprint",
-                                        day: new Date(
-                                            race.Sprint.date,
-                                        ).toLocaleDateString("en-US", {
-                                            weekday: "long",
-                                        }),
-                                        time: race.Sprint.time.slice(0, 5),
-                                    },
-
-                                    race?.Qualifying && {
-                                        title: "Qualifying",
-                                        day: new Date(
-                                            race.Qualifying.date,
-                                        ).toLocaleDateString("en-US", {
-                                            weekday: "long",
-                                        }),
-                                        time: race.Qualifying.time.slice(0, 5),
-                                    },
-
-                                    {
-                                        title: "Race",
-                                        day: new Date(
-                                            race.date,
-                                        ).toLocaleDateString("en-US", {
-                                            weekday: "long",
-                                        }),
-                                        time: race.time.slice(0, 5),
-                                    },
-                                ]
-                                    .filter(Boolean)
-                                    .map((item) => (
-                                        <div
-                                            key={item.title}
-                                            className="flex justify-between items-center py-3 border-b border-gray-700"
-                                        >
-                                            <div>
-                                                <h3 className="font-semibold">
-                                                    {item.title}
-                                                </h3>
-                                                <p className="text-sm text-gray-400">
-                                                    {item.day}
-                                                </p>
-                                            </div>
-
-                                            <span className="font-bold text-red-500">
-                                                {item.time}
-                                            </span>
-                                        </div>
-                                    ))} */}
-                            </div>
-
-                            {/* Weather */}
+                            
 
                             <div className="bg-gradient-to-br from-red-600 to-red-800 rounded-3xl p-7">
                                 <h2 className="text-2xl font-bold mb-6">
@@ -522,6 +407,15 @@ export default function Races() {
 
                                     <div className="flex justify-between">
                                         <span className="text-gray-400">
+                                            Elevation Change
+                                        </span>
+
+                                        <span className="font-bold">
+                                            {circuitData?.elevationChange}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">
                                             Capacity
                                         </span>
 
@@ -543,7 +437,7 @@ export default function Races() {
                                     <li className="flex gap-3">
                                         <span className="text-red-500">●</span>
                                         Home of the Spanish Grand Prix since
-                                        1991.
+                                        
                                     </li>
 
                                     <li className="flex gap-3">

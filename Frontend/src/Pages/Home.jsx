@@ -14,9 +14,9 @@ const Home = () => {
                 <HeroSection />
 
                 {/* Section Divider */}
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="h-px bg-gradient-to-r from-transparent via-[#1A1A1A] to-transparent" />
-                </div>
+                </div> */}
 
                 <UpcomingRaces />
 
