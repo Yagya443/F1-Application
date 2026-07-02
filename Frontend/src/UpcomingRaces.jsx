@@ -66,7 +66,7 @@ export default function UpcomingRaces() {
             </div>
 
             {/* Scrollable Cards */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 select-none">
                 <div
                     ref={scrollRef}
                     className="flex gap-6 overflow-x-auto scrollbar-hide pb-4"

@@ -70,7 +70,7 @@ function HeroSection() {
         const fetchStanding = async () => {
             const stand = await handleStanding();
             setStanding(stand);
-            console.log(stand);
+            // console.log(stand);
         };
 
         fetchRace();

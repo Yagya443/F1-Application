@@ -1,219 +1,26 @@
 import { useEffect, useState } from "react";
 import { Trophy, ChevronRight, Clock, Flag } from "lucide-react";
 import { PreviousRacesFunc } from "./hooks/PreviousRace.function";
-
-// const teamLogos = {
-//   'Red Bull Racing': (
-//     <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: '#3671C6', color: 'white' }}>RB</div>
-//   ),
-//   'Ferrari': (
-//     <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: '#E10600', color: 'white' }}>SF</div>
-//   ),
-//   'McLaren': (
-//     <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: '#FF8000', color: 'white' }}>MC</div>
-//   ),
-//   'Mercedes': (
-//     <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: '#00D2BE', color: 'black' }}>MB</div>
-//   ),
-// };
-
-// function PreviousRaceCard() {
-//     const [hovered, setHovered] = useState(false);
-
-//     return (
-//         <div
-//             className={`glass-card rounded-xl border border-[#1A1A1A] overflow-hidden cursor-pointer transition-all duration-300 ${
-//                 hovered
-//                     ? "border-[#E10600]/30 shadow-[0_0_30px_rgba(225,6,0,0.1)]"
-//                     : ""
-//             }`}
-//             onMouseEnter={() => setHovered(true)}
-//             onMouseLeave={() => setHovered(false)}
-//         >
-//             <div className="flex flex-col sm:flex-row">
-//                 {/* Image */}
-//                 <div
-//                     className="relative sm:w-52 lg:w-64 flex-shrink-0 overflow-hidden"
-//                     style={{ minHeight: "160px" }}
-//                 >
-//                     <img
-//                         src={race.imageUrl}
-//                         alt={race.name}
-//                         className={`w-full h-full object-cover transition-transform duration-700 ${hovered ? "scale-110" : "scale-100"}`}
-//                         style={{ minHeight: "160px" }}
-//                     />
-//                     <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0F0F0F] opacity-50 sm:opacity-70" />
-//                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-transparent to-transparent sm:hidden" />
-
-//                     <div className="absolute top-3 left-3 bg-[#050505]/80 backdrop-blur-sm border border-[#1A1A1A] rounded-lg px-2 py-1">
-//                         <span className="text-[#E10600] text-xs font-mono font-bold">
-//                             R{race.round}
-//                         </span>
-//                     </div>
-//                 </div>
-
-//                 <div className="flex-1 p-5 sm:p-6">
-//                     <div className="flex items-start justify-between gap-4">
-//                         <div className="flex-1 min-w-0">
-//                             <div className="flex items-center gap-2 mb-3">
-//                                 <span className="text-xl">{race.flag}</span>
-//                                 <span className="text-gray-500 text-xs font-mono">
-//                                     {race.date}
-//                                 </span>
-//                             </div>
-
-//                             {/* Race Name */}
-//                             <h3 className="text-white font-bold text-lg leading-tight mb-1">
-//                                 {race.name}
-//                             </h3>
-//                             <p className="text-gray-500 text-sm mb-4">
-//                                 {race.circuit}
-//                             </p>
-
-//                             {/* Winner */}
-//                             <div className="flex items-center gap-3">
-//                                 <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#1A1A1A] border border-[#252525]">
-//                                     <Trophy
-//                                         size={14}
-//                                         className="text-[#E10600]"
-//                                     />
-//                                     <div>
-//                                         <div className="text-xs text-gray-500 uppercase tracking-wider leading-none mb-0.5">
-//                                             Winner
-//                                         </div>
-//                                         <div className="text-white text-sm font-semibold leading-none">
-//                                             {race.winner}
-//                                         </div>
-//                                     </div>
-//                                     <div className="ml-2 pl-2 border-l border-[#2A2A2A]">
-//                                         {teamLogos[race.team] || (
-//                                             <div className="w-6 h-6 rounded-full bg-[#2A2A2A]" />
-//                                         )}
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         </div>
-
-//                         {/* Right Side Info */}
-//                         <div className="flex-shrink-0 text-right">
-//                             <div className="mb-4">
-//                                 <div className="text-gray-500 text-xs uppercase tracking-wider mb-1">
-//                                     Fastest Lap
-//                                 </div>
-//                                 <div className="text-white text-sm font-mono font-semibold flex items-center gap-1 justify-end">
-//                                     <Clock
-//                                         size={12}
-//                                         className="text-[#E10600]"
-//                                     />
-//                                     {race.fastestLap}
-//                                 </div>
-//                             </div>
-
-//                             <button
-//                                 className={`flex items-center gap-1.5 text-sm font-semibold transition-all duration-200 ${
-//                                     hovered ? "text-[#E10600]" : "text-gray-400"
-//                                 }`}
-//                             >
-//                                 Results
-//                                 <ChevronRight
-//                                     size={14}
-//                                     className={`transition-transform duration-200 ${hovered ? "translate-x-1" : ""}`}
-//                                 />
-//                             </button>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
-
-// export default function PreviousRaces() {
-//     const [previous, setPrevious] = useState(null);
-
-//     useEffect(() => {
-//         const fetchPrevious = async () => {
-//             const previousRaces = await PreviousRacesFunc();
-//             setPrevious(previousRaces);
-//             console.log("previousRaces", previousRaces);
-//         };
-
-//         fetchPrevious();
-//     }, []);
-
-//     return (
-//         <section className="py-20 relative">
-//             {/* Background accent */}
-//             <div className="absolute top-1/2 right-0 w-96 h-96 bg-[#E10600]/3 rounded-full blur-3xl pointer-events-none" />
-
-//             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//                 {/* Header */}
-//                 <div className="mb-12">
-//                     <span className="section-label block mb-3">
-//                         Race Results
-//                     </span>
-//                     <div className="flex items-end justify-between">
-//                         <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-//                             Previous Races
-//                         </h2>
-//                         <button className="btn-secondary hidden sm:flex items-center gap-2 text-sm">
-//                             All Results
-//                             <ChevronRight size={16} />
-//                         </button>
-//                     </div>
-//                 </div>
-
-//                 {/* Race Cards */}
-//                 <div className="flex flex-col gap-4">
-
-//                 </div>
-
-//                 {/* Mobile All Results */}
-//                 <div className="mt-8 sm:hidden flex justify-center">
-//                     <button className="btn-secondary flex items-center gap-2">
-//                         All Results
-//                         <ChevronRight size={16} />
-//                     </button>
-//                 </div>
-//             </div>
-//         </section>
-//     );
-// }
-
-// function PreviousRaceCard() {
-//     const [hovered, setHovered] = useState(false);
-
-//     return (
-//         <div
-//             className={`glass-card rounded-xl border border-[#1A1A1A] overflow-hidden cursor-pointer transition-all duration-300 ${
-//                 hovered
-//                     ? "border-[#E10600]/30 shadow-[0_0_30px_rgba(225,6,0,0.1)]"
-//                     : ""
-//             }`}
-//             onMouseEnter={() => setHovered(true)}
-//             onMouseLeave={() => setHovered(false)}
-//         >
-
-//         </div>
-//     );
-// }
+import circuits from "./data/circuit.json";
+import { handleNextRaceDate } from "./hooks/NextRace.function";
 
 export default function PreviousRaces() {
     const [previous, setPrevious] = useState(null);
+    // const [nextRace, setNextRace] = useState(null);
     const [hovered, setHovered] = useState(false);
 
     useEffect(() => {
         const fetchPrevious = async () => {
-            const previousRaces = await PreviousRacesFunc();
+            const previousRaces = await PreviousRacesFunc(8);
             setPrevious(previousRaces);
-            console.log("previousRaces", previousRaces);
-            // console.log("previousRaces", previousRaces[0]?.season);
-          };
-          
-          fetchPrevious();
-        }, []);
-        
-        // console.log("season", previous?.season);
+            console.log(previousRaces);
+        };
+
+        fetchPrevious();
+    }, []);
+
+    // console.log("season", nextRace  );
+
     return (
         <section className="py-20 relative">
             {/* Background accent */}
@@ -238,102 +45,105 @@ export default function PreviousRaces() {
 
                 {/* Race Cards */}
                 <div className="flex flex-col sm:flex-row">
-                    {previous?.map((race) => (
-                        <div>
-                            <div
-                                className="relative sm:w-52 lg:w-64 flex-shrink-0 overflow-hidden"
-                                style={{ minHeight: "160px" }}
-                            >
-                                <img
-                                    className={`w-full h-full object-cover transition-transform duration-700 ${hovered ? "scale-110" : "scale-100"}`}
+                    {previous &&
+                        previous?.map((race) => (
+                            <div>
+                                <div
+                                    className="relative sm:w-52 lg:w-64 flex-shrink-0 overflow-hidden"
                                     style={{ minHeight: "160px" }}
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0F0F0F] opacity-50 sm:opacity-70" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-transparent to-transparent sm:hidden" />
+                                >
+                                    <img
+                                        className={`w-full h-full object-cover transition-transform duration-700 ${hovered ? "scale-110" : "scale-100"}`}
+                                        style={{ minHeight: "160px" }}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0F0F0F] opacity-50 sm:opacity-70" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-transparent to-transparent sm:hidden" />
 
-                                <div className="absolute top-3 left-3 bg-[#050505]/80 backdrop-blur-sm border border-[#1A1A1A] rounded-lg px-2 py-1">
-                                    <span className="text-[#E10600] text-xs font-mono font-bold">
-                                        R{race[0]?.round}
-                                    </span>
+                                    <div className="absolute top-3 left-3 bg-[#050505]/80 backdrop-blur-sm border border-[#1A1A1A] rounded-lg px-2 py-1">
+                                        <span className="text-[#E10600] text-xs font-mono font-bold">
+                                            {/* R{race[0]?.round} */}
+                                            
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="flex-1 p-5 sm:p-6">
-                                <div className="flex items-start justify-between gap-4">
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <span className="text-gray-500 text-xs font-mono">
-                                                {race?.date}
-                                            </span>
-                                        </div>
+                                <div className="flex-1 p-5 sm:p-6">
+                                    <div className="flex items-start justify-between gap-4">
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <span className="text-gray-500 text-xs font-mono">
+                                                    {/* {race?.date} */}
+                                                </span>
+                                            </div>
 
-                                        <h3 className="text-white font-bold text-lg leading-tight mb-1">
-                                            {race?.raceName}
-                                        </h3>
-                                        <p className="text-gray-500 text-sm mb-4">
-                                            2ec
-                                        </p>
+                                            <h3 className="text-white font-bold text-lg leading-tight mb-1">
+                                                {/* {race?.raceName} */}
+                                            </h3>
+                                            <p className="text-gray-500 text-sm mb-4">
+                                                2ec
+                                            </p>
 
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#1A1A1A] border border-[#252525]">
-                                                <Trophy
-                                                    size={14}
-                                                    className="text-[#E10600]"
-                                                />
-                                                <div>
-                                                    <div className="text-xs text-gray-500 uppercase tracking-wider leading-none mb-0.5">
-                                                        Winner
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#1A1A1A] border border-[#252525]">
+                                                    <Trophy
+                                                        size={14}
+                                                        className="text-[#E10600]"
+                                                    />
+                                                    <div>
+                                                        <div className="text-xs text-gray-500 uppercase tracking-wider leading-none mb-0.5">
+                                                            Winner
+                                                        </div>
+                                                        <div className="text-white text-sm font-semibold leading-none">
+                                                            {/* {
+                                                                race?.Results[0]
+                                                                    ?.Driver
+                                                                    ?.givenName
+                                                            } */}
+                                                        </div>
                                                     </div>
-                                                    <div className="text-white text-sm font-semibold leading-none">
-                                                        {
+                                                    <div className="ml-2 pl-2 border-l border-[#2A2A2A]">
+                                                        {/* {
                                                             race?.Results[0]
-                                                                ?.Driver
-                                                                ?.givenName
-                                                        }
+                                                                ?.Constructor
+                                                                ?.name
+                                                        } */}
+                                                        <div className="w-6 h-6 rounded-full bg-[#2A2A2A]" />
                                                     </div>
                                                 </div>
-                                                <div className="ml-2 pl-2 border-l border-[#2A2A2A]">
-                                                    {
-                                                        race?.Results[0]
-                                                            ?.Constructor?.name
-                                                    }
-                                                    <div className="w-6 h-6 rounded-full bg-[#2A2A2A]" />
+                                            </div>
+                                        </div>
+
+                                        <div className="flex-shrink-0 text-right">
+                                            <div className="mb-4">
+                                                <div className="text-gray-500 text-xs uppercase tracking-wider mb-1">
+                                                    Fastest Lap
+                                                </div>
+                                                <div className="text-white text-sm font-mono font-semibold flex items-center gap-1 justify-end">
+                                                    <Clock
+                                                        size={12}
+                                                        className="text-[#E10600]"
+                                                    />
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <div className="flex-shrink-0 text-right">
-                                        <div className="mb-4">
-                                            <div className="text-gray-500 text-xs uppercase tracking-wider mb-1">
-                                                Fastest Lap
-                                            </div>
-                                            <div className="text-white text-sm font-mono font-semibold flex items-center gap-1 justify-end">
-                                                <Clock
-                                                    size={12}
-                                                    className="text-[#E10600]"
+                                            <button
+                                                className={`flex items-center gap-1.5 text-sm font-semibold transition-all duration-200 ${
+                                                    hovered
+                                                        ? "text-[#E10600]"
+                                                        : "text-gray-400"
+                                                }`}
+                                            >
+                                                Results
+                                                <ChevronRight
+                                                    size={14}
+                                                    className={`transition-transform duration-200 ${hovered ? "translate-x-1" : ""}`}
                                                 />
-                                            </div>
+                                            </button>
                                         </div>
-
-                                        <button
-                                            className={`flex items-center gap-1.5 text-sm font-semibold transition-all duration-200 ${
-                                                hovered
-                                                    ? "text-[#E10600]"
-                                                    : "text-gray-400"
-                                            }`}
-                                        >
-                                            Results
-                                            <ChevronRight
-                                                size={14}
-                                                className={`transition-transform duration-200 ${hovered ? "translate-x-1" : ""}`}
-                                            />
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
 
                 {/* Mobile All Results */}

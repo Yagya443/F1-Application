@@ -1,5 +1,7 @@
 const PreviousRaceWinners = async (id) => {
-    // console.log(country, id);
+
+
+    // console.log('id',id);
     // console.log(country, id);
     // console.log(country, id);
 
@@ -19,7 +21,7 @@ const PreviousRaceWinners = async (id) => {
     const data2 = await response2.json();
     const data3 = await response3.json();
 
-    console.log(data1);
+    // console.log("data1",data1);
 
     // const year1=.Driver
 

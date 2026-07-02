@@ -61,6 +61,7 @@ export default function Races() {
             );
             // console.log(circuit);
             setCircuitData(circuit);
+            // console.log(circuit);   
         };
 
         const fetchStanding = async () => {
@@ -69,11 +70,11 @@ export default function Races() {
             // console.log("stand", stand);
         };
 
-        const fetchWeather = async () => {
-            const weath = await handleWeather(circuitData?.country);
-            setWeather(weath);
+        // const fetchWeather = async () => {
+            // const weath = await handleWeather(circuitData?.country);
+            // setWeather(weath);
             // console.log("weather", weather);
-        };
+        // };
         const fetchRaceData = async () => {
             const raceData = await handleRaceData();
             setRaceData(raceData);
@@ -89,9 +90,12 @@ export default function Races() {
         fetchRace();
         fetchStanding();
         fetchRaceData();
-        fetchWeather();
+        // fetchWeather();
         fetchPreviousWinner();
     }, []);
+
+            // console.log(circuitData);   
+
 
     const start = new Date(nextRace?.date_start);
     const end = new Date(nextRace?.date_end);
@@ -118,7 +122,7 @@ export default function Races() {
 
     // console.log(circuits);
 
-    console.log(circuitData);
+    // console.log(circuitData);
 
     return (
         <>
