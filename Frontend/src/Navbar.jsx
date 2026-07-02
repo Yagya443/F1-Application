@@ -57,25 +57,6 @@ const Navbar = () => {
                         >
                             Calender
                         </NavLink>
-                        <NavLink
-                            to="/About"
-                            className={({ isActive }) =>
-                                isActive
-                                    ? "text-[#E10600] font-semibold"
-                                    : "text-gray-300 hover:text-white"
-                            }
-                        >
-                            About
-                        </NavLink>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#E10600]/20 bg-[#E10600]/5">
-                            <span className="podium-dot w-2 h-2" />
-                            <span className="text-[#E10600] text-xs font-semibold tracking-widest uppercase">
-                                Live
-                            </span>
-                        </div>
                     </div>
                 </div>
             </div>

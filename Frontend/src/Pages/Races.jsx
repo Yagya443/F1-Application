@@ -12,7 +12,7 @@ import Navbar from "../Navbar";
 import { handleNextRaceDate } from "../hooks/NextRace.function";
 import { handleStanding } from "../hooks/Standings.function";
 import { handleSchedule } from "../hooks/Schedule.function";
-import handleRaceData from "../hooks/RaceData.function";
+// import handleRaceData from "../hooks/RaceData.function";
 import circuits from "../data/circuit.json";
 import handleWeather from "../hooks/Weather.function";
 import PreviousRaceWinners from "../hooks/PreviousRaceWinners.function";
@@ -46,13 +46,13 @@ export default function Races() {
     const [standing, setStanding] = useState(null);
     const [schedule, setSchedule] = useState(null);
     const [weather, setWeather] = useState(null);
-    const [raceData, setRaceData] = useState(null);
+    // const [raceData, setRaceData] = useState(null);
     const [circuitData, setCircuitData] = useState(null);
     const [previousWinner, setPreviousWinner] = useState(null);
 
     useEffect(() => {
         const fetchRace = async () => {
-            const race = await handleNextRaceDate();
+            const race = await handleAllRace();
             setNextRace(race);
             // console.log("race", race);
 
@@ -68,6 +68,7 @@ export default function Races() {
             const stand = await handleStanding();
             setStanding(stand);
             // console.log("stand", stand);
+
         };
 
         // const fetchWeather = async () => {
@@ -75,10 +76,11 @@ export default function Races() {
             // setWeather(weath);
             // console.log("weather", weather);
         // };
-        const fetchRaceData = async () => {
-            const raceData = await handleRaceData();
-            setRaceData(raceData);
-        };
+        // const fetchRaceData = async () => {
+        //     const raceData2 = await handleRaceData();
+        //     setRaceData(raceData2);
+        //     console.log('raceData2',raceData2);
+        // };
         const fetchPreviousWinner = async () => {
             const previous = await PreviousRaceWinners(
                 circuitData?.circuitId,
@@ -89,7 +91,7 @@ export default function Races() {
 
         fetchRace();
         fetchStanding();
-        fetchRaceData();
+        // fetchRaceData();
         // fetchWeather();
         fetchPreviousWinner();
     }, []);

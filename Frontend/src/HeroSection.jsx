@@ -35,6 +35,14 @@ function HeroSection() {
         startX.current = e.pageX;
         scrollLeft.current = sliderRef.current.scrollLeft;
     };
+    const handleMouseLeave = (e) => {
+        isDragging.current = false;
+        sliderRef.current.classList.remove("cursor-grabbing");
+        sliderRef.current.classList.add("cursor-grab");
+
+        // startX.current = e.pageX;
+        // scrollLeft.current = sliderRef.current.scrollLeft;
+    };
 
     const handleMouseUp = () => {
         isDragging.current = false;
@@ -251,6 +259,7 @@ function HeroSection() {
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseLeave}
                     className=" flex flex-nowrap overflow-x-hidden scrollbar-hide gap-5 cursor-grab select-none "
                 >
                     {standing?.StandingsTable?.StandingsLists[0]?.DriverStandings?.map(

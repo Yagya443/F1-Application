@@ -11,9 +11,6 @@ export const handleSchedule = async (id) => {
 
     // console.log(data);
 
-    // const previousfilteredData = data.filter(
-    //     (ele) => new Date(ele.date_start) < new Date(),
-    // );
 
     return data.MRData.RaceTable.Races;
 };
