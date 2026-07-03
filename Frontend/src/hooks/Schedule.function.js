@@ -9,7 +9,7 @@ export const handleSchedule = async (id) => {
 
     const data = await response.json();
 
-    // console.log(data);
+    // console.log("handleSchedule",data);
 
 
     return data.MRData.RaceTable.Races;

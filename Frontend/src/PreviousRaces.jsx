@@ -13,7 +13,7 @@ export default function PreviousRaces() {
         const fetchPrevious = async () => {
             const previousRaces = await PreviousRacesFunc(8);
             setPrevious(previousRaces);
-            console.log(previousRaces);
+            // console.log(previousRaces);
         };
 
         fetchPrevious();

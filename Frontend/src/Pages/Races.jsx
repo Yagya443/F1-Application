@@ -12,95 +12,115 @@ import Navbar from "../Navbar";
 import { handleNextRaceDate } from "../hooks/NextRace.function";
 import { handleStanding } from "../hooks/Standings.function";
 import { handleSchedule } from "../hooks/Schedule.function";
-// import handleRaceData from "../hooks/RaceData.function";
 import circuits from "../data/circuit.json";
 import handleWeather from "../hooks/Weather.function";
 import PreviousRaceWinners from "../hooks/PreviousRaceWinners.function";
+import Footer from "../Footer";
+import { handleAllRace } from "../hooks/AllRace.function";
+import handleRaceData from "../hooks/RaceData.function";
 
 export default function Races() {
-    // const previousWinners = [
-    //     {
-    //         year: "2025",
-    //         driver: "Oscar Piastri",
-    //         team: "McLaren",
-    //         position: "P1",
-    //         color: "bg-orange-500",
-    //     },
-    //     {
-    //         year: "2024",
-    //         driver: "Max Verstappen",
-    //         team: "Red Bull Racing",
-    //         position: "P1",
-    //         color: "bg-blue-600",
-    //     },
-    //     {
-    //         year: "2023",
-    //         driver: "Max Verstappen",
-    //         team: "Red Bull Racing",
-    //         position: "P1",
-    //         color: "bg-blue-600",
-    //     },
-    // ];
-
     const [nextRace, setNextRace] = useState(null);
     const [standing, setStanding] = useState(null);
     const [schedule, setSchedule] = useState(null);
     const [weather, setWeather] = useState(null);
-    // const [raceData, setRaceData] = useState(null);
+    const [raceData, setRaceData] = useState(null);
     const [circuitData, setCircuitData] = useState(null);
     const [previousWinner, setPreviousWinner] = useState(null);
 
     useEffect(() => {
         const fetchRace = async () => {
-            const race = await handleAllRace();
+            const race = await handleNextRaceDate();
             setNextRace(race);
-            // console.log("race", race);
+            // console.log("handleNextRace", race);
 
-            const circuit = await circuits.find(
+            // console.log("nextRace", nextRace);
+
+            const circuit = circuits.find(
                 (item) => item?.grandPrix === nextRace?.meeting_name,
             );
-            // console.log(circuit);
+            // console.log(circuits);
             setCircuitData(circuit);
-            // console.log(circuit);   
+            // console.log("circuits", circuits);
+            // console.log("nextRace", nextRace);
+            // console.log("circuit", circuit);
         };
 
         const fetchStanding = async () => {
             const stand = await handleStanding();
             setStanding(stand);
             // console.log("stand", stand);
-
         };
 
-        // const fetchWeather = async () => {
-            // const weath = await handleWeather(circuitData?.country);
-            // setWeather(weath);
-            // console.log("weather", weather);
-        // };
-        // const fetchRaceData = async () => {
-        //     const raceData2 = await handleRaceData();
-        //     setRaceData(raceData2);
-        //     console.log('raceData2',raceData2);
-        // };
+        const fetchRaceData = async () => {
+            const raceData = await handleRaceData();
+            setRaceData(raceData);
+            // console.log("raceData2", raceData);
+        };
         const fetchPreviousWinner = async () => {
-            const previous = await PreviousRaceWinners(
-                circuitData?.circuitId,
-            );
+            const previous = await PreviousRaceWinners(circuitData?.circuitId);
             // console.log("fetchPreviousWinner", previous);
             setPreviousWinner(previous);
         };
 
         fetchRace();
         fetchStanding();
-        // fetchRaceData();
+        fetchRaceData();
         // fetchWeather();
         fetchPreviousWinner();
     }, []);
 
-            // console.log(circuitData);   
+    useEffect(() => {
+        if (!circuitData) return;
+        const fetchWeather = async () => {
+            const weath = await handleWeather(circuitData?.country);
+            setWeather(weath);
+            console.log("weather", weather);
+        };
 
+        fetchWeather();
+    }, [circuitData]);
 
-    const start = new Date(nextRace?.date_start);
-    const end = new Date(nextRace?.date_end);
+    // console.log("circuitData", circuitData);
+
+    // const start = new Date(nextRace?.date_start);
+    // const end = new Date(nextRace?.date_end);
+
+    // useEffect(() => {
+    //     const loadData = async () => {
+    //         try {
+    //             const [race, standing, raceData] = await Promise.all([
+    //                 handleAllRace(),
+    //                 handleStanding(),
+    //                 handleRaceData(),
+    //             ]);
+
+    //             setNextRace(race);
+    //             setStanding(standing);
+    //             setRaceData(raceData);
+
+    //             const circuit = circuits.find(
+    //                 (item) => item.grandPrix === race.meeting_name,
+    //             );
+
+    //             setCircuitData(circuit);
+
+    //             if (circuit) {
+    //                 const [weather, previousWinner] = await Promise.all([
+    //                     handleWeather(circuit.country),
+    //                     PreviousRaceWinners(circuit.circuitId),
+    //                 ]);
+
+    //                 setWeather(weather);
+    //                 setPreviousWinner(previousWinner);
+    //             }
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     };
+
+    //     loadData();
+    // }, []);
 
     const formatRaceDate = (startDate, endDate) => {
         const start = new Date(startDate);
@@ -133,7 +153,6 @@ export default function Races() {
                 {/* Header */}
                 <section className="relative pt-8 overflow-hidden border-b border-white/10">
                     <div className="max-w-7xl mx-auto px-6 py-10 relative">
-                        {/* Back Button */}
                         <div className="grid lg:grid-cols-2 gap-10 items-center">
                             {/* LEFT */}
 
@@ -233,9 +252,8 @@ export default function Races() {
                                         </p>
 
                                         <h3 className="text-2xl font-bold mt-1">
-                                            {
-                                                circuitData?.raceDistance
-                                            }</h3>
+                                            {circuitData?.raceDistance}
+                                        </h3>
                                     </div>
 
                                     <div className="bg-[#0D1117] rounded-2xl p-6 border border-white/5">
@@ -286,7 +304,7 @@ export default function Races() {
                                 </div>
 
                                 <div className="space-y-5">
-                                    {previousWinner?.map((winner,idx) => (
+                                    {previousWinner?.map((winner, idx) => (
                                         <div
                                             key={idx}
                                             className="bg-[#0D1117] rounded-2xl p-5 flex items-center justify-between border border-white/5 hover:border-red-500 transition"
@@ -300,7 +318,8 @@ export default function Races() {
 
                                                 <div>
                                                     <h3 className="text-2xl font-semibold">
-                                                        {winner.firstName} {winner.lastName} 
+                                                        {winner.firstName}{" "}
+                                                        {winner.lastName}
                                                     </h3>
 
                                                     <p className="text-gray-400">
@@ -319,8 +338,6 @@ export default function Races() {
                         </div>
 
                         <div className="space-y-8">
-                            
-
                             <div className="bg-gradient-to-br from-red-600 to-red-800 rounded-3xl p-7">
                                 <h2 className="text-2xl font-bold mb-6">
                                     Race Weather
@@ -443,7 +460,6 @@ export default function Races() {
                                     <li className="flex gap-3">
                                         <span className="text-red-500">●</span>
                                         Home of the Spanish Grand Prix since
-                                        
                                     </li>
 
                                     <li className="flex gap-3">
@@ -465,6 +481,7 @@ export default function Races() {
                         </div>
                     </div>
                 </section>
+                <Footer />
             </div>
         </>
     );

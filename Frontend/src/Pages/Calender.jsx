@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CalendarDays, Clock3, CheckCircle2 } from "lucide-react";
 import { handleAllRace } from "../hooks/AllRace.function";
 import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 export default function CalendarPage() {
     const [races, setRaces] = useState([]);
@@ -38,7 +39,6 @@ export default function CalendarPage() {
             <Navbar />
 
             <div className="min-h-screen bg-[#0A0A0A] text-white">
-
                 <section className="relative h-[520px] overflow-hidden">
                     {/* Background Image */}
                     <img
@@ -143,13 +143,15 @@ export default function CalendarPage() {
 
                                     <div>
                                         <h3 className="font-semibold text-lg">
-                                            {race.meeting_name.split(" ")[0]}
+                                            {
+                                                race.meeting_name.split(
+                                                    "Grand",
+                                                )[0]
+                                            }
                                         </h3>
                                     </div>
                                 </div>
-
                                 {/* Date */}
-
                                 <div className="flex items-center text-neutral-300">
                                     {new Date(
                                         race.date_start,
@@ -196,6 +198,7 @@ export default function CalendarPage() {
                     </div>
                 </section>
             </div>
+            <Footer />
         </>
     );
 }
