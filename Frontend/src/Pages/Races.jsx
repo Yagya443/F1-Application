@@ -18,6 +18,7 @@ import PreviousRaceWinners from "../hooks/PreviousRaceWinners.function";
 import Footer from "../Footer";
 import { handleAllRace } from "../hooks/AllRace.function";
 import handleRaceData from "../hooks/RaceData.function";
+import axios from "axios";
 
 export default function Races() {
     const [nextRace, setNextRace] = useState(null);
@@ -27,6 +28,24 @@ export default function Races() {
     const [raceData, setRaceData] = useState(null);
     const [circuitData, setCircuitData] = useState(null);
     const [previousWinner, setPreviousWinner] = useState(null);
+    const [aiFacts, setAiFacts] = useState(null);
+
+    const handleQuickFact = async () => {
+        try {
+            const response = await axios.post(
+                "http://localhost:3000/api/facts",
+                {
+                    answer: circuitData?.grandPrix,
+                },
+            );
+            
+
+            setAiFacts(response.data.response);
+            console.log("setAiFacts", response.data.response);
+        } catch (error) {
+            console.log(error.response?.data || error.message);
+        }
+    };
 
     useEffect(() => {
         const fetchRace = async () => {
@@ -68,6 +87,7 @@ export default function Races() {
         fetchRaceData();
         // fetchWeather();
         fetchPreviousWinner();
+        handleQuickFact();
     }, []);
 
     useEffect(() => {
@@ -75,7 +95,7 @@ export default function Races() {
         const fetchWeather = async () => {
             const weath = await handleWeather(circuitData?.country);
             setWeather(weath);
-            console.log("weather", weather);
+            // console.log("weather", weather);
         };
 
         fetchWeather();
@@ -459,22 +479,25 @@ export default function Races() {
                                 <ul className="space-y-4 text-gray-300">
                                     <li className="flex gap-3">
                                         <span className="text-red-500">●</span>
-                                        Home of the Spanish Grand Prix since
+
                                     </li>
 
                                     <li className="flex gap-3">
                                         <span className="text-red-500">●</span>
-                                        Famous for long sweeping corners.
+
+                                    </li>
+
+                                    <li className="flex gap-3">
+                                        <span className="text-red-500">●</span>
+
                                     </li>
 
                                     <li className="flex gap-3">
                                         <span className="text-red-500">●</span>
                                         Excellent track for aerodynamic testing.
-                                    </li>
-
-                                    <li className="flex gap-3">
-                                        <span className="text-red-500">●</span>
                                         Overtaking mainly into Turn 1.
+                                        Famous for long sweeping corners.
+                                        Home of the Spanish Grand Prix since
                                     </li>
                                 </ul>
                             </div>

@@ -12,7 +12,7 @@ export default function CalendarPage() {
         const fetchAllRaces = async () => {
             const data = await handleAllRace();
             setRaces(data);
-            console.log(data);
+            // console.log(data);
         };
 
         fetchAllRaces();

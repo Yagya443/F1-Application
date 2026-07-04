@@ -150,11 +150,11 @@ function HeroSection() {
                                         {
                                             nextRace?.date_start
                                                 ?.split("T")[1]
-                                                .split("+")[0]
+                                                .split("+")[0]  
                                         }
                                     </span>
                                 </div>
-                            </div>
+                                </div>
 
                             <div className="track-line w-24 mb-8" />
 
@@ -163,7 +163,7 @@ function HeroSection() {
                                 <p className="text-xs text-gray-500 font-semibold uppercase tracking-widest mb-4">
                                     Race Starts In
                                 </p>
-                                <div className="flex items-center gap-2 sm:gap-3">
+                                <div className="flex items-end gap-2 sm:gap-3">
                                     <CountdownBox
                                         value={countdown.days}
                                         label="Days"
@@ -190,6 +190,8 @@ function HeroSection() {
                                         label="Secs"
                                     />
                                 </div>
+                                <p>Race is According to {nextRace?.country_name} Time</p>
+
                             </div>
 
                             <div className="flex flex-wrap gap-3">

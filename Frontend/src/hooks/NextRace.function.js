@@ -7,8 +7,11 @@ export async function handleNextRaceDate() {
 
     const races = await response.json();
 
+    console.log(races);
+    
+
     const upcomingRace =races?.find(
-        (race) => new Date(race.date_start) > new Date(),
+        (race) => new Date(race.date_end) >= new Date(),
     );
     return upcomingRace;
 }

@@ -4,9 +4,8 @@ const genAi = new GoogleGenerativeAI(process.env.GEMINI_API);
 
 const handleAnswer = async (req, res) => {
     try {
-
         // console.log(inputVal);
-        
+
         const { inputVal } = req.body;
 
         const model = genAi.getGenerativeModel({
@@ -37,8 +36,26 @@ const trackInfo = async (req, res) => {
         });
 
         const result = await model.generateContent(`
-                give me 4 facts of ${"answer"} this track and make sure that each fact hav=s 4,5 words in it 
-            `);
+                                You are an F1 expert.
+
+                                Generate exactly 4 interesting facts about the Formula 1 track "${answer}".
+
+                                Rules:
+                                - Return ONLY a valid JSON array.
+                                - Each fact must contain exactly 6 to 7 words.
+                                - Facts should be accurate and unique.
+                                - Do not number the facts.
+                                - Do not include markdown.
+                                - Do not include any explanation before or after the array.
+
+                                Example:
+                                    [
+                                        'Excellent track for aerodynamic testing'.
+                                        'Overtaking mainly into Turn 1'.
+                                        'Famous for long sweeping corners'.
+                                        'Home of the Spanish Grand Prix since'
+                                    ]
+                                `);
 
         const response = result.response.text();
 
