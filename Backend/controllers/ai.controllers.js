@@ -4,14 +4,17 @@ const genAi = new GoogleGenerativeAI(process.env.GEMINI_API);
 
 const handleAnswer = async (req, res) => {
     try {
-        const { answer } = req.body;
+
+        // console.log(inputVal);
+        
+        const { inputVal } = req.body;
 
         const model = genAi.getGenerativeModel({
             model: "gemini-2.5-flash",
         });
 
         const result = await model.generateContent(`
-            ${answer}
+            ${inputVal}
             anther the question in just 7,10 words not more than that
             `);
 

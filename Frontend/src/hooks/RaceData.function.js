@@ -1,5 +1,3 @@
-
-
 const handleRaceData = async () => {
     const response = await fetch(`https://api.jolpi.ca/ergast/f1/circuits/`);
 
