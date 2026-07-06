@@ -50,10 +50,10 @@ const trackInfo = async (req, res) => {
 
                                 Example:
                                     [
-                                        'Excellent track for aerodynamic testing'.
-                                        'Overtaking mainly into Turn 1'.
-                                        'Famous for long sweeping corners'.
-                                        'Home of the Spanish Grand Prix since'
+                                        Excellent track for aerodynamic testing.
+                                        Overtaking mainly into Turn 1.
+                                        Famous for long sweeping corners.
+                                        Home of the Spanish Grand Prix since
                                     ]
                                 `);
 

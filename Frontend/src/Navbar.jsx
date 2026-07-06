@@ -6,10 +6,10 @@ import { NavLink } from "react-router-dom";
 const Navbar = () => {
     return (
         <div
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 `}
+            className={`fixed top-0 left-[50%] -translate-x-1/2 z-50 transition-all duration-300 `}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 w-[100vw] lg:px-8 ">
+                <div className="flex items-center justify-between  h-16">
                     {/* Logo */}
                     <a className="flex items-center gap-3 group">
                         <div className="relative">
@@ -26,7 +26,7 @@ const Navbar = () => {
                     </a>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className="flex items-center gap-8 ">
                         <NavLink
                             to="/"
                             className={({ isActive }) =>
